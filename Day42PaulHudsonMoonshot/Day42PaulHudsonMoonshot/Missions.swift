@@ -1,18 +1,19 @@
 //
 //  Missions.swift
-//  Day41PaulHudsonMoonshot
+//  Day42PaulHudsonMoonshot
 //
-//  Created by Manuel Bermudo on 21/6/24.
+//  Created by Manuel Bermudo on 23/6/24.
 //
 
 import Foundation
 
-struct Mission: Codable, Identifiable{
+struct Mission: Codable, Identifiable {
     
-    struct CrewRole: Codable {
+    struct CrewRole: Codable{
         let name: String
         let role: String
     }
+    
     
     let id: Int
     let launchDate: Date?
@@ -22,10 +23,15 @@ struct Mission: Codable, Identifiable{
     var displayName: String{
         "Apollo \(id)"
     }
-    var image: String {
+    var image: String{
         "apollo\(id)"
     }
     var formattedLaunchDate: String{
         launchDate?.formatted(date: .abbreviated, time: .omitted) ?? "N/A"
     }
+    //Challenge 1
+    var completeFormattedLaunchDate: String{
+        launchDate?.formatted(date: .complete, time: .omitted) ?? "N/A"
+    }
+    
 }
