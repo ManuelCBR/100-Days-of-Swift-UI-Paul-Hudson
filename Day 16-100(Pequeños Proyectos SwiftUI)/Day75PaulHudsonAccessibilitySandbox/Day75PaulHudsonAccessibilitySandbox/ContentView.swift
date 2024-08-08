@@ -1,26 +1,20 @@
 //
 //  ContentView.swift
-//  Day22PaulHudsonGuessTheFlag
+//  Day75PaulHudsonAccessibilitySandbox
 //
-//  Created by Manuel Bermudo on 3/6/24.
+//  Created by Manuel Bermudo on 8/8/24.
 //
 
 import SwiftUI
 
+/**
+ Comment:
+ On this day, accessibility will be implemented in several previous projects, which are Guess the Flag, Word Scramble and Book Worm. Here I will leave the Guess the Flag project as a representation of day 75. The rest will be modified on their respective days.
+ */
+
 struct ContentView: View {
     @State private var showingScore = false
     @State private var scoreTitle = ""
-    /**
-     Challenge day 22:
-     Add an @State property to store the user’s score, modify it when they get an answer right or wrong, then display it in the alert and in the score label.
-     */
-    @State var counterScore = 0
-    /**
-     Challenge day 22:
-     Make the game show only 8 questions, at which point they see a final alert judging their score and can restart the game.
-     */
-    @State var counterQuestions = 1
-    @State var finalScore = false
     
     @State var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Spain", "UK", "Ukraine", "US"].shuffled()
     @State var correctAnswer = Int.random(in: 0...2)
@@ -43,7 +37,7 @@ struct ContentView: View {
         ZStack{
             RadialGradient(stops: [
                 .init(color: Color(red: 0.1, green: 0.2, blue: 0.45), location: 0.3),
-                .init(color: Color(red: 0.76, green: 0.15, blue: 2), location: 0.3)
+                .init(color: Color(red: 0.76, green: 0.15, blue: 0.26), location: 0.3)
             ], center: .top, startRadius: 200, endRadius: 700)
             .ignoresSafeArea()
             VStack{
@@ -67,7 +61,6 @@ struct ContentView: View {
                                 .clipShape(.buttonBorder)
                                 .shadow(radius: 10)
                         }
-                        //Adding accesibility, day 75
                         .accessibilityLabel(labels[countries[number], default: "Unknown flag"])
                     }
                 }
@@ -79,7 +72,7 @@ struct ContentView: View {
                 Spacer()
                 Spacer()
                 
-                Text("Score: \(counterScore)")
+                Text("Score: ???")
                     .foregroundStyle(.white)
                     .font(.title.bold())
                 
@@ -90,51 +83,19 @@ struct ContentView: View {
         .alert(scoreTitle, isPresented: $showingScore){
             Button("Continue", action: askQuestion)
         }message: {
-            Text("Your score is \(counterScore)")
-        }
-        /**
-         Challenge day 22:
-         Make the game show only 8 questions, at which point they see a final alert judging their score and can restart the game.
-         */
-        .alert("Game Over", isPresented: $finalScore){
-            Button("Reset", action: resetGame)
-        }message: {
-            Text("Your score is \(counterScore) / 8")
+            Text("Your score is ???")
         }
     }
     func flagTapped(_ number: Int){
         if number == correctAnswer{
             scoreTitle = "Correct"
-            counterScore += 1
+            
         }else{
-            /**
-             Challenge day 22:
-             When someone chooses the wrong flag, tell them their mistake in your alert message – something like “Wrong! That’s the flag of France,” for example.
-             */
-            scoreTitle = "Wrong!, That's the flag of \(countries[number])"
+            scoreTitle = "Wrong"
         }
-        /**
-         Challenge day 22:
-         Make the game show only 8 questions, at which point they see a final alert judging their score and can restart the game.
-         */
-        if counterQuestions == 8 {
-            finalScore = true
-        }else{
-            showingScore = true
-        }
-        counterQuestions += 1
+        showingScore = true
     }
     func askQuestion(){
-        countries.shuffle()
-        correctAnswer = Int.random(in: 0...2)
-    }
-    /**
-     Challenge day 22:
-     Make the game show only 8 questions, at which point they see a final alert judging their score and can restart the game.
-     */
-    func resetGame(){
-        counterScore = 0
-        counterQuestions = 1
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
     }
